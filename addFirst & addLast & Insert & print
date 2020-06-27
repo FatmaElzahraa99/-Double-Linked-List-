@@ -1,0 +1,151 @@
+#include <iostream>
+using namespace std;
+template <class T>
+class Linked_list {
+public:struct Node {
+	T data;
+	Node* next;
+	Node* prev;
+};
+	   int size = 0;
+	   Node* head = NULL;
+	   //Insert value in any index
+public:bool insert(int index , T element) {
+	Node* newNode = new Node;
+	if (index > size - 1 || index < 0) return false;
+	newNode->data = element;
+	if (index == 0) {
+		newNode->next = head;
+		head->prev = newNode;
+		head = newNode;
+		size++;
+		return true;
+	}
+	Node* temp = head;
+	for (int i = 0; i < index && temp != nullptr; i++) {
+		temp = temp->next;
+	}
+	newNode->prev = temp->prev;
+	temp->prev->next = newNode;
+	temp->prev = newNode;
+	newNode->next = temp;
+	size++; 
+	return true;
+}
+	   //Insert value in the last linear
+public: void addLast(T val) {
+	Node* newNode = new Node;
+	(newNode->data) = val;
+	newNode->next = NULL;
+	if (head == NULL) {
+		newNode->prev = NULL;
+		newNode->next = NULL;
+		head = newNode;
+	}
+	else {
+		Node* temp = head;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+		temp->next = newNode;
+		newNode->next = NULL;
+		newNode->prev = temp;
+	}
+	size++;
+}
+		//Insert in first list
+public: void addFirst(T val) {
+	Node* newNode = new Node;
+	newNode->data = val;
+	if (head == NULL) {
+		newNode->next = NULL;
+		newNode->prev = NULL;
+		head = newNode;
+	}
+	else {
+		newNode->prev = NULL;
+		newNode->next = head;
+		head = newNode;
+	}
+	size++;
+}
+		//display all the elements
+public:	void print() {
+	Node* temp = head;
+	while (temp != NULL) {
+		cout << (temp->data) << " ";
+		temp = temp->next;
+	}
+}
+		//method to get the first element
+public:T first() {
+	if (head == NULL) {
+		throw "empty list";
+	}
+		return head->data;
+}
+	   //method to get the size of list
+public:int getSize() {
+		return size;
+}
+	   //method to get the last element
+public:T last() {
+	Node* temp = head;
+	if (head == NULL) //if the list is empty??
+		throw "empty list";
+	while (temp->next != NULL) {
+		temp = temp->next;
+	}
+	return (temp->data);
+}
+	   //method to update any element 
+public:bool update(int index, T val) {
+	Node* temp = head;
+	if (index<0 || index>size) return false;
+	if (head == NULL) return false;
+	for (int i = 0; i < index; i++) {
+		temp = temp->next;
+	}
+		temp->data = val;
+		return true;
+	}
+
+	   //method to clear the list
+public:void clear() 
+{
+	while (!IsEmpty())
+		this->removeFirst();
+}
+//method check the list if is empty or not?
+public:bool IsEmpty() {
+	return head == NULL;
+}
+};
+
+int main() {
+
+	Linked_list<string>* list = new Linked_list<string>();
+	string s = "Abdel Ghany";
+	list->addFirst("Kawther");
+	list->addLast("Manar");
+	list->addLast("Mahrous");
+	list->addLast("Norhan");
+	list->addLast("Sama");
+	list->addLast("Mostafa");
+	list->addLast("Youssef");
+	list->addLast("Menna");
+	list->addLast("Rowida");
+	list->addLast("Yomna");
+	list->addLast("Faima Eid");
+	list->addLast("Zahraa");
+	list->addFirst("Mosa");
+	list->insert(2, "Mark");
+	list->insert(1, "Mahmoud");
+	list->insert(3, s);
+	list->print();
+	cout << endl;
+	list->clear();
+	cout << "Is it empty? " << list->IsEmpty() << endl;
+	return 0;
+}
